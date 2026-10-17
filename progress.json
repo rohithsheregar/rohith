@@ -1,13 +1,20 @@
 {
   "meta": {
-    "startDate": null,
+    "startDate": "2026-10-17",
     "currentStage": "0-1",
-    "lastSession": null,
-    "streak": 0,
-    "longestStreak": 0
+    "lastSession": "2026-10-17",
+    "streak": 1,
+    "longestStreak": 1
   },
   "weakAreas": [],
-  "history": [],
+  "history": [
+    {
+      "date": "2026-10-17",
+      "mode": "high",
+      "energy": 4,
+      "mood": "feeling good"
+    }
+  ],
   "topics": [
     {
       "id": "s01-01",
