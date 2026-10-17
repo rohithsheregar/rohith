@@ -1,4 +1,4 @@
-﻿# Today: Saturday, 2026-10-17 (High day)
+# Today: Saturday, 2026-10-17 (High day)
 
 > Day 1 · Streak 0 → 1 · Stage 0-1 Tools and web basics · Mood/energy today: 4/5, feeling good · Time: 4-5 hours
 
@@ -37,15 +37,21 @@ Before hash maps, checking "have I seen this value before?" required scanning th
 
 ### How it works
 
-Two Sum pattern in JavaScript:
+Two Sum pattern in Java:
 
-  function twoSum(nums, target) {
-    const seen = {};           // value to index map
-    for (let i = 0; i < nums.length; i++) {
-      const complement = target - nums[i];
-      if (complement in seen) return [seen[complement], i];
-      seen[nums[i]] = i;
-    }
+  import java.util.HashMap;
+  class Solution {
+      public int[] twoSum(int[] nums, int target) {
+          HashMap<Integer, Integer> seen = new HashMap<>();  // value -> index
+          for (int i = 0; i < nums.length; i++) {
+              int complement = target - nums[i];
+              if (seen.containsKey(complement)) {
+                  return new int[]{seen.get(complement), i};
+              }
+              seen.put(nums[i], i);
+          }
+          return new int[]{};
+      }
   }
 
 Key terms: complement, seen map, single-pass, O(n) time / O(n) space.
@@ -53,28 +59,28 @@ Key terms: complement, seen map, single-pass, O(n) time / O(n) space.
 ### Steps to do
 
 1. Open NeetCode (https://neetcode.io/roadmap), click "Arrays & Hashing". Watch the Two Sum video (~10 min).
-2. Solve 217. Contains Duplicate on LeetCode — target 5 min. Use a Set, not a sort.
-3. Solve 242. Valid Anagram — target 10 min. Count character frequencies with a plain object.
-4. Solve 1. Two Sum — target 15 min. Classic single-pass hash map.
-5. For each problem write in notes/dsa-log.md: pattern name, approach in one sentence, time complexity, space complexity.
+2. Solve 217. Contains Duplicate on LeetCode in Java — target 5 min. Use a HashSet, not a sort.
+3. Solve 242. Valid Anagram in Java — target 10 min. Use a HashMap to count character frequencies.
+4. Solve 1. Two Sum in Java — target 15 min. Classic single-pass HashMap.
+5. For each problem, add a brief entry to notes/dsa-notes.md: pattern name, approach in one sentence, time complexity, space complexity.
 
 ### Playground (experiment on purpose)
 
-- On Contains Duplicate: solve it with .sort() first (O(n log n)), then with a Set (O(n)). Time both on 100k elements with console.time.
-- On Two Sum: try the naive double-loop first. Watch the complexity go from O(n squared) to O(n).
+- On Contains Duplicate: solve it with sorting first (O(n log n)), then with a HashSet (O(n)). Compare.
+- On Two Sum: try the naive double-loop first. Watch complexity go from O(n squared) to O(n).
 - On Valid Anagram: test with "rat" and "car" — they are anagrams. Make sure your code agrees.
 
 ### Completion criteria (I will check these tonight)
 
-- [ ] All 3 problems submitted and accepted on LeetCode.
-- [ ] notes/dsa-log.md exists with one entry per problem: approach + time/space complexity.
-- [ ] Can state "Two Sum uses a hash map because..." in two sentences without notes.
+- [ ] All 3 problems submitted and accepted on LeetCode (in Java).
+- [ ] notes/dsa-notes.md has one entry per problem: approach + time/space complexity.
+- [ ] Can state "Two Sum uses a HashMap because..." in two sentences without notes.
 
 ### Common mistakes
 
-- Using .indexOf() inside a loop — that is O(n squared). Always reach for a Set or Map first.
-- Forgetting that JS object keys are strings: seen[2] and seen["2"] are the same key. Use Map if keys must be typed.
-- Solving and moving on without writing the pattern down. Write it now; you will forget by tomorrow.
+- Using a nested loop — that is O(n squared). Always reach for a HashSet or HashMap first.
+- Forgetting to use Integer (not int) as HashMap key type in Java — autoboxing handles it but be aware.
+- Solving and moving on without updating notes/dsa-notes.md. One line per problem is enough.
 
 ### Read more
 
@@ -337,7 +343,7 @@ Your Stage 0-1 project is a responsive personal page on GitHub Pages. Today you 
 
 - [ ] projects/personal-page/ exists locally with at least one commit.
 - [ ] Page is live at https://rohithsheregar.github.io/personal-page/ (or equivalent URL).
-- [ ] notes/shell-notes.md and notes/dsa-log.md are committed to this (daily-coach) repo.
+- [ ] notes/dsa-notes.md and notes/shell-notes.md are committed to this (daily-coach) repo.
 - [ ] scripts/hello.sh is committed and runs without errors.
 
 ### Common mistakes
@@ -356,22 +362,17 @@ Your Stage 0-1 project is a responsive personal page on GitHub Pages. Today you 
 
 **Type / time:** Assess · 30 min
 
-No notes. Answer these 5 questions from memory first, then check.
-
-Write your answers in notes/self-quiz-2026-10-17.md before looking anything up:
+No notes needed — I will ask you these questions when you come back for the evening check. Just think through the answers now so you are ready:
 
 1. What is the difference between grep and find? When do you use each?
 2. What does a pipe (|) do? Give one example using two commands.
 3. What does set -euo pipefail at the top of a shell script do, and why is it important?
 4. What is the difference between a fast-forward merge and a merge commit in Git?
-5. Why does Two Sum use a hash map instead of a double loop? What complexity does each have?
-
-Score yourself after: 4 of 5 is a pass.
+5. Why does Two Sum use a HashMap instead of a double loop? What complexity does each have?
 
 ### Completion criteria (I will check these tonight)
 
-- [ ] notes/self-quiz-2026-10-17.md exists with answers written before checking notes.
-- [ ] Score 4 of 5 or better, or flag which one needs re-reading.
+- [ ] Can answer 4 of 5 questions above when I ask them verbally in the evening check.
 
 ---
 

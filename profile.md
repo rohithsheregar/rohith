@@ -14,7 +14,7 @@
 
 ## Strengths (update from evidence)
 
-- (fill in as the coach observes them)
+- Already comfortable with React, Node.js, Spring Boot, Python — can move faster through those topics.
 
 ## Where to improve (update from evidence)
 
@@ -22,4 +22,6 @@
 
 ## Constraints and preferences
 
-- (add: exam dates, preferred DSA language, preferred study hours, anything he tells the coach)
+- **DSA language: Java.** All DSA problems solved and explained in Java. Code snippets in plans use Java.
+- **Notes: minimal.** Only two note files: `notes/dsa-notes.md` (DSA patterns, complexity, approaches) and `notes/backend-notes.md` (backend concepts). No other note files. No self-quiz files. Coach will ask verification questions verbally during the evening check instead.
+- Preferred study block: morning/afternoon sessions.
