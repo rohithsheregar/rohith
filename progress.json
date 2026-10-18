@@ -2,9 +2,9 @@
   "meta": {
     "startDate": "2026-10-17",
     "currentStage": "0-1",
-    "lastSession": "2026-10-17",
-    "streak": 1,
-    "longestStreak": 1
+    "lastSession": "2026-10-18",
+    "streak": 2,
+    "longestStreak": 2
   },
   "weakAreas": [],
   "history": [
@@ -13,6 +13,12 @@
       "mode": "high",
       "energy": 4,
       "mood": "feeling good"
+    },
+    {
+      "date": "2026-10-18",
+      "mode": "medium",
+      "energy": 4,
+      "mood": "good mood 1 hour"
     }
   ],
   "topics": [

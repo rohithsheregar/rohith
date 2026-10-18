@@ -1,392 +1,203 @@
-# Today: Saturday, 2026-10-17 (High day)
+﻿# Today: Sunday, 2026-10-18 (Medium day)
 
-> Day 1 · Streak 0 → 1 · Stage 0-1 Tools and web basics · Mood/energy today: 4/5, feeling good · Time: 4-5 hours
+> Day 2 · Streak 1 · Stage 0-1 Tools and web basics · Mood/energy today: Good, time: 1 hour · Mode: Medium
 
-**Why this plan:** This is Day 1 — no history yet, no revisions, no weak topics. You have 4-5 hours and energy 4/5, so High mode is the right call. We'll lay the single most important foundation: shell + Git (the two tools you will use every day for the rest of this roadmap) plus your first DSA pattern (Arrays and Hashing).
+**Why this plan:** Yesterday you did Arrays & Hashing (3 problems in Java, identified the HashMap pattern). Today you have exactly 1 hour and want maximum interview value. Two Pointers is the #2 most common interview pattern — it appears in palindrome, sorted-array, and opposite-ends problems. It is fast to learn and immediately applicable.
 
-## Yesterday
+## Yesterday (Day 1 — partial)
 
-First day, nothing to review.
+Planned 6 steps. Completed: DSA (3 problems — Two Sum ✅, Contains Duplicate ✅, Valid Anagram ✅ with help). Shell/Git/personal page steps were not checked in — those topics carry forward to future days in Stage 0-1. No guilt; DSA is the highest-value output of Day 1.
 
 ## Today at a glance
 
 | # | Step | Type | Time | Done when |
 | --- | --- | --- | --- | --- |
-| 1 | DSA: Arrays and Hashing — 3 problems | DSA | 60 min | 3 problems attempted, approach + complexity stated for each |
-| 2 | Learn: Shell navigation, pipes, grep, find | Learn | 40 min | Can navigate, grep, and find without looking anything up |
-| 3 | Learn: Shell scripting and environment variables | Learn | 40 min | Have a working .sh script that uses a variable and runs |
-| 4 | Learn: Git — commit, branch, merge | Learn | 40 min | Repo exists in projects/git-practice/ with 3 branches and a merge commit |
-| 5 | Build: init the Stage 0-1 project | Build | 40 min | projects/personal-page/ has index.html on GitHub Pages |
-| 6 | Assess and revise | Assess | 30 min | Can answer 4 of 5 shell/git quiz questions without notes |
+| 1 | DSA: Two Pointers — 2 problems | DSA | 45 min | 2 problems solved in Java, approach noted in dsa-notes.md |
+| 2 | Concept: How Two Pointers works + when to use vs HashMap | Learn | 10 min | Can state the two conditions that tell you to use Two Pointers |
+| 3 | Notes + commit | Wrap-up | 5 min | notes/dsa-notes.md updated, committed |
 
-Order: do them top to bottom. Phone out of reach. If you are stuck for 30 minutes, write the question in the log and move on.
+Order: do them top to bottom. Phone out of reach. If stuck for 15 minutes on a problem, look at the NeetCode hint video — not the full solution.
 
 ---
 
-## Step 1: DSA — Arrays and Hashing (3 problems)
+## Step 1 + 2 (combined): Two Pointers
 
-**Type / time:** DSA · 60 min
+**Type / time:** DSA + Learn · 55 min
 
 ### What it is
 
-Arrays and Hashing is the first and most fundamental DSA pattern. Nearly every interview problem touches it. The core idea: use a hash map (an object or Map in JavaScript) to trade time for space — instead of scanning an array repeatedly (O(n squared)), you store values you have seen in a map and look them up in O(1). Arrays give you indexed access; hashing gives you fast membership checks and counting.
+Two Pointers means placing two index variables (usually called left and ight, or i and j) into an array or string and moving them toward each other — or in the same direction — based on conditions. You avoid the O(n²) double loop by making each pointer move at most n steps total, giving O(n) time.
 
-### Why it exists (and a little history)
+There are two main shapes:
 
-Before hash maps, checking "have I seen this value before?" required scanning the whole array each time — O(n) per check, O(n squared) total. Hash maps were formalised in the 1950s and became standard library types in every language (dict in Python, HashMap in Java, Map/plain objects in JavaScript). The pattern shows up in roughly a third of all LeetCode easy/medium problems. It is the pattern interviewers reach for first because it tests whether you know how to break out of nested loops.
+**Shape A — Opposite ends (most common):**
+`
+left →                ← right
+ [2, 3, 4, 7, 11, 15]
+`
+Used when: the array is **sorted** and you are looking for a pair that meets a condition (sum, product, difference). You move left right if you need a bigger value, right left if you need smaller.
 
-### How it works
+**Shape B — Same direction (slow + fast pointer):**
+`
+slow →
+fast →→
+ [1, 2, 3, 4, 5]
+`
+Used when: detecting cycles, removing duplicates in-place, or sliding a window. Fast pointer scouts ahead; slow pointer marks where to write.
 
-Two Sum pattern in Java:
+### When to use Two Pointers vs HashMap
 
-  import java.util.HashMap;
-  class Solution {
-      public int[] twoSum(int[] nums, int target) {
-          HashMap<Integer, Integer> seen = new HashMap<>();  // value -> index
-          for (int i = 0; i < nums.length; i++) {
-              int complement = target - nums[i];
-              if (seen.containsKey(complement)) {
-                  return new int[]{seen.get(complement), i};
-              }
-              seen.put(nums[i], i);
-          }
-          return new int[]{};
-      }
-  }
+| Signal in the problem | Use |
+|---|---|
+| "sorted array", "find a pair", "in-place" | Two Pointers |
+| "unsorted", "count occurrences", "any order" | HashMap / HashSet |
+| "substring", "window of size k" | Sliding Window (next pattern) |
 
-Key terms: complement, seen map, single-pass, O(n) time / O(n) space.
+### The Two Pointers Java template
+
+`java
+// Shape A — opposite ends
+int left = 0, right = nums.length - 1;
+while (left < right) {
+    int sum = nums[left] + nums[right];
+    if (sum == target) {
+        return new int[]{left + 1, right + 1}; // 1-indexed if needed
+    } else if (sum < target) {
+        left++;      // need bigger value → move left right
+    } else {
+        right--;     // need smaller value → move right left
+    }
+}
+`
+
+`java
+// Shape B — same direction (remove duplicates)
+int slow = 0;
+for (int fast = 1; fast < nums.length; fast++) {
+    if (nums[fast] != nums[slow]) {
+        slow++;
+        nums[slow] = nums[fast];
+    }
+}
+return slow + 1; // length of unique portion
+`
 
 ### Steps to do
 
-1. Open NeetCode (https://neetcode.io/roadmap), click "Arrays & Hashing". Watch the Two Sum video (~10 min).
-2. Solve 217. Contains Duplicate on LeetCode in Java — target 5 min. Use a HashSet, not a sort.
-3. Solve 242. Valid Anagram in Java — target 10 min. Use a HashMap to count character frequencies.
-4. Solve 1. Two Sum in Java — target 15 min. Classic single-pass HashMap.
-5. For each problem, add a brief entry to notes/dsa-notes.md: pattern name, approach in one sentence, time complexity, space complexity.
+**Problem 1 — 125. Valid Palindrome (LeetCode)**
+https://leetcode.com/problems/valid-palindrome/
 
-### Playground (experiment on purpose)
+- Category: Two Pointers, Shape A.
+- Goal: Given a string, check if it reads the same forwards and backwards (ignoring non-alphanumeric chars and case).
+- Target time: 10 min.
+- Approach hint: left starts at 0, right at end. Skip non-alphanumeric with Character.isLetterOrDigit(). Compare Character.toLowerCase() of both. If mismatch → return false.
 
-- On Contains Duplicate: solve it with sorting first (O(n log n)), then with a HashSet (O(n)). Compare.
-- On Two Sum: try the naive double-loop first. Watch complexity go from O(n squared) to O(n).
-- On Valid Anagram: test with "rat" and "car" — they are anagrams. Make sure your code agrees.
+`java
+class Solution {
+    public boolean isPalindrome(String s) {
+        int left = 0, right = s.length() - 1;
+        while (left < right) {
+            while (left < right && !Character.isLetterOrDigit(s.charAt(left))) left++;
+            while (left < right && !Character.isLetterOrDigit(s.charAt(right))) right--;
+            if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
+`
 
-### Completion criteria (I will check these tonight)
-
-- [ ] All 3 problems submitted and accepted on LeetCode (in Java).
-- [ ] notes/dsa-notes.md has one entry per problem: approach + time/space complexity.
-- [ ] Can state "Two Sum uses a HashMap because..." in two sentences without notes.
-
-### Common mistakes
-
-- Using a nested loop — that is O(n squared). Always reach for a HashSet or HashMap first.
-- Forgetting to use Integer (not int) as HashMap key type in Java — autoboxing handles it but be aware.
-- Solving and moving on without updating notes/dsa-notes.md. One line per problem is enough.
-
-### Read more
-
-- NeetCode 150: https://neetcode.io/ — your DSA home for this whole roadmap.
-
----
-
-## Step 2: Learn — Shell navigation, pipes, grep, find
-
-**Type / time:** Learn · 40 min
-
-### What it is
-
-The shell is how you control your computer without a GUI. Every developer workflow — running servers, querying logs, scripting deployments — goes through the shell. Navigation commands let you move around the filesystem; pipes chain commands together; grep searches text; find locates files. These four things cover 80% of what you will do in a terminal for the rest of your career.
-
-### Why it exists (and a little history)
-
-The Unix shell was designed at Bell Labs in the late 1960s (Ken Thompson, Dennis Ritchie). The pipe operator (|) was added in 1973 and is widely considered one of the best design ideas in computing: instead of one giant program that does everything, you compose small tools. This philosophy — "do one thing well" — shaped how software is built today. Git, Node.js, Docker: all are command-line tools that you pipe and script together.
-
-### How it works
-
-  pwd             # Where am I?
-  ls -la          # List all files, long format (shows hidden files)
-  cd projects/    # Change into a directory
-  cd ..           # Go up one level
-
-  # Pipes — output of left becomes input of right
-  ls -la | grep ".md"       # Only .md files
-  cat file.txt | wc -l      # Count lines
-
-  # grep — search for a pattern
-  grep "TODO" index.js       # Lines with TODO in one file
-  grep -r "TODO" .           # Recursive: all files in current dir
-  grep -n "function" app.js  # Show line numbers
-
-  # find — locate files
-  find . -name "*.json"      # All JSON files from here down
-  find . -type d             # All directories
-  find . -name "*.log" -mtime -1  # Log files from the last day
-
-Key terms: stdin, stdout, pipe (|), glob (* wildcard), flag (-r, -n, -la).
-
-### Steps to do
-
-1. Open Git Bash (on Windows) or your terminal.
-2. Navigate to your daily-coach repo and run ls -la. See CLAUDE.md, README.md, etc.
-3. Run: grep -r "TODO" .
-4. Run: find . -name "*.md"
-5. Run: ls -la | grep ".md"
-6. Read The Missing Semester Shell Tools notes: https://missing.csail.mit.edu/2020/shell-tools/
-7. Write 5 commands you did not know before in notes/shell-notes.md.
-
-### Playground (experiment on purpose)
-
-- Run: find . -name "*.json" | xargs grep "status" — find all JSON files and search inside them for "status".
-- Run: grep -n "stage" ROADMAP.md | head -20 — first 20 lines mentioning "stage".
-- Break it: run grep with no arguments and read the error message carefully.
-
-### Completion criteria (I will check these tonight)
-
-- [ ] notes/shell-notes.md exists with at least 5 commands, each with a one-line explanation.
-- [ ] Can run grep -r and find . -name from memory.
-- [ ] Can explain what a pipe (|) does in one sentence without notes.
-
-### Common mistakes
-
-- Using PowerShell syntax (Get-ChildItem) — use Bash/Unix commands. Use Git Bash or WSL on Windows.
-- Forgetting quotes around patterns with spaces: grep "two words" file.txt not grep two words file.txt.
-- Running find / which searches the whole filesystem — always use find . to start from current directory.
-
-### Read more
-
-- The Missing Semester Shell Tools: https://missing.csail.mit.edu/2020/shell-tools/
-- Odin Project Command Line Basics: https://www.theodinproject.com/lessons/foundations-command-line-basics
+Read the solution above, understand each line, then close it and type it yourself from memory. That is more valuable than solving from scratch for a first encounter.
 
 ---
 
-## Step 3: Learn — Shell scripting and environment variables
+**Problem 2 — 167. Two Sum II (LeetCode)**
+https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/
 
-**Type / time:** Learn · 40 min
-
-### What it is
-
-A shell script is a text file containing shell commands that run top to bottom. Environment variables are key-value pairs stored in the shell's memory that programs read to configure themselves — things like NODE_ENV=production or DATABASE_URL. Every Node.js app, every Docker container, every CI pipeline uses environment variables heavily.
-
-### Why it exists (and a little history)
-
-Before scripting, every deployment was done by hand — type 20 commands, in order, every time, hoping you made no typos. Shell scripts made workflows repeatable and automatable. Environment variables came from the need to configure software without changing source code: you want the same codebase to behave differently in dev vs production without a code change. Both ideas are from Unix (1970s) and remain the primary way servers and tools are configured today.
-
-### How it works
-
-  #!/usr/bin/env bash
-  set -euo pipefail       # Exit on error, undefined var, pipe fail
-
-  NAME="Rohith"
-  echo "Hello, "     # Double quotes expand variables
-  echo 'Hello, '     # Single quotes do NOT expand
-
-  export PORT=3000         # Available to child processes
-
-  # Default value: use DATABASE_HOST if set, else "localhost"
-  DB_HOST=""
-
-  if [ -f "package.json" ]; then
-    echo "This is a Node project"
-  fi
-
-  for file in *.md; do
-    echo "Found: "
-  done
-
-Key terms: shebang (#!/usr/bin/env bash), export,  syntax, default value (), set -e.
-
-### Steps to do
-
-1. Create: touch scripts/hello.sh in your daily-coach repo.
-2. Write a script that: prints your name and today's date, reads a GREETING env var (default "Hello"), loops over all .md files in the root and prints their names.
-3. Make executable: chmod +x scripts/hello.sh
-4. Run: ./scripts/hello.sh
-5. Run with custom greeting: GREETING="Namaste" ./scripts/hello.sh — verify it changes.
-6. Read the scripting section of https://missing.csail.mit.edu/2020/shell-tools/
-
-### Playground (experiment on purpose)
-
-- Remove set -euo pipefail and use a typo variable name. See silent failure. Add it back — now it exits with an error.
-- Run env to list all environment variables. Find PATH.
-- Run echo  — each colon-separated entry is a directory the shell searches when you type a command.
-
-### Completion criteria (I will check these tonight)
-
-- [ ] scripts/hello.sh exists and runs without errors.
-- [ ] The script uses at least one variable, one env var with a default, and one loop.
-- [ ] Can explain what export does differently from a plain assignment, in one sentence.
-
-### Common mistakes
-
-- Spaces around = in assignments: NAME = "Rohith" is wrong. NAME="Rohith" is correct — no spaces.
-- Forgetting chmod +x — you will get Permission denied.
-- Using  in single quotes — single quotes are literal, double quotes expand variables.
-
-### Read more
-
-- The Missing Semester Shell Scripting: https://missing.csail.mit.edu/2020/shell-tools/
+- Category: Two Pointers, Shape A.
+- Goal: Same as Two Sum but the array is already sorted. Return 1-indexed positions.
+- Target time: 10 min.
+- Key insight: because it is sorted, HashMap is not needed. Two Pointers gives O(n) time AND O(1) space (better than HashMap's O(n) space).
+- Try this one yourself first before looking at any solution. Use the template above.
 
 ---
 
-## Step 4: Learn — Git: commit, branch, merge
+**Problem 3 (stretch, do if time left) — 26. Remove Duplicates from Sorted Array**
+https://leetcode.com/problems/remove-duplicates-from-sorted-array/
 
-**Type / time:** Learn · 40 min
+- Category: Two Pointers, Shape B (slow/fast).
+- Try it using the Shape B template above.
 
-### What it is
+---
 
-Git is a version control system: it records every change to your code as a snapshot (commit), lets you work on separate lines of development (branches), and combines them back together (merge). You already know Git — this step is about doing it deliberately and understanding *why* each command exists, not just copying commands from Stack Overflow. The goal is to use Git as a thinking tool, not just a backup system.
+### Completion criteria (I will check these tonight)
 
-### Why it exists (and a little history)
+- [ ] 125. Valid Palindrome — accepted on LeetCode in Java.
+- [ ] 167. Two Sum II — accepted on LeetCode in Java.
+- [ ] notes/dsa-notes.md updated with Two Pointers entry: when to use it, O(n) time, O(1) space.
+- [ ] Can explain in one sentence why Two Sum II does NOT need a HashMap.
 
-Before Git (2005), teams used CVS and SVN — centralised systems where everyone touched the same files on a server. Linus Torvalds wrote Git in about two weeks to replace a proprietary system for the Linux kernel. Git's key innovation: every developer has the full history locally, branches are cheap (just a pointer to a commit), and merging is a first-class operation. GitHub (2008) made it social. Today Git is used by essentially every software team in the world.
+### Common mistakes
 
-### How it works
+- Moving both pointers at the same time — only move one per iteration based on the condition.
+- Forgetting to skip non-alphanumeric in Valid Palindrome — Character.isLetterOrDigit() is the key method.
+- Using Two Pointers on an unsorted array for a sum problem — it only works because the array is sorted. On unsorted, use HashMap.
 
-  # The three areas
-  # Working directory → (git add) → Staging area → (git commit) → Repository
+### Useful Java methods for this pattern
 
-  git init
-  git status
-  git add file.txt
+`java
+Character.isLetterOrDigit(ch)   // true if alphanumeric
+Character.toLowerCase(ch)        // lowercases a char
+Character.toUpperCase(ch)        // uppercases a char
+s.charAt(i)                      // get char at index i
+`
+
+Write these in your notes. These are the method names you will forget.
+
+---
+
+## Step 3: Notes + commit
+
+Add this block to 
+otes/dsa-notes.md (create the file if it does not exist):
+
+`
+## Two Pointers (2026-10-18)
+
+Pattern: Two index variables moving through an array/string.
+Shape A (opposite ends): sorted array, find a pair → O(n) time, O(1) space.
+Shape B (same direction / slow+fast): remove duplicates, detect cycles.
+
+Use instead of HashMap when: array is sorted AND you need O(1) space.
+Use HashMap when: unsorted, or need to count/store values.
+
+Problems done:
+- 125. Valid Palindrome — Shape A, skip non-alphanumeric with Character.isLetterOrDigit()
+- 167. Two Sum II — Shape A, move left if sum too small, right if too big
+
+Useful methods:
+- Character.isLetterOrDigit(ch)
+- Character.toLowerCase(ch)
+- s.charAt(i)
+`
+
+Then commit:
+
   git add .
-  git commit -m "feat: add login"
-
-  git branch feature-nav
-  git switch feature-nav       # Modern; older is git checkout
-  git switch -c hotfix         # Create AND switch in one command
-
-  git switch main
-  git merge feature-nav
-
-Fast-forward merge: main just moves its pointer forward. No merge commit.
-True merge commit: two branches diverged; Git creates a new commit M with two parents.
-
-### Steps to do
-
-1. mkdir projects/git-practice && cd projects/git-practice && git init
-2. echo "# Git Practice" > README.md && git add . && git commit -m "init: add README"
-3. git switch -c feature/navbar — add nav.md, commit.
-4. git switch main && git switch -c feature/footer — add footer.md, commit.
-5. git switch main && git merge feature/navbar
-6. git merge feature/footer
-7. git log --oneline --graph --all — see the full tree with both merges.
-
-### Playground (experiment on purpose)
-
-- Create a conflict: on two branches, edit the same line of README.md differently, then merge. Resolve the conflict by hand (edit the file, remove the markers), then git add and git commit.
-- Run git log --oneline --graph --all after every major step — watch the tree grow.
-- Run git diff main feature/navbar before merging — see exactly what will change.
-
-### Completion criteria (I will check these tonight)
-
-- [ ] projects/git-practice/ has at least 3 branches in its history.
-- [ ] git log --oneline --graph shows at least one merge commit with two parents.
-- [ ] Can explain the difference between fast-forward merge and merge commit in two sentences.
-
-### Common mistakes
-
-- Using git checkout instead of git switch — both work, but switch is clearer. Build the right habit.
-- One giant commit. Commit after each meaningful change — small commits are easier to revert.
-- Not running git status constantly. Make it a reflex: before and after every command.
-
-### Read more
-
-- Pro Git Chapter 2 Basics: https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository
-- Pro Git Chapter 3 Branching: https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell
-
----
-
-## Step 5: Build — Init the Stage 0-1 project (personal page)
-
-**Type / time:** Build · 40 min
-
-### What it is
-
-Your Stage 0-1 project is a responsive personal page on GitHub Pages. Today you just get the skeleton live. Small and ugly is fine — it just needs to exist and be deployed. Every future HTML, CSS, JS topic you learn in Stage 0-1 will go into this page, so it grows with you through the stage.
-
-### Steps to do
-
-1. mkdir projects/personal-page && cd projects/personal-page && git init
-2. Create index.html with this content (customise your name):
-
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rohith Sheregar</title>
-  </head>
-  <body>
-    <header>
-      <h1>Rohith Sheregar</h1>
-      <p>B.E. Computer Science · SMVITM · SDE in progress</p>
-    </header>
-    <main>
-      <section>
-        <h2>About</h2>
-        <p>Final-year CSE student. Building full-stack skills daily.</p>
-      </section>
-    </main>
-  </body>
-  </html>
-
-3. git add . && git commit -m "init: add personal page skeleton"
-4. Create a public GitHub repo named personal-page. Then push:
-
-  git branch -M main
-  git remote add origin https://github.com/rohithsheregar/personal-page.git
-  git push -u origin main
-
-5. GitHub → Settings → Pages → Source: Deploy from branch → main → / (root) → Save.
-6. Wait 1-2 minutes, open https://rohithsheregar.github.io/personal-page/ — it should show your page.
-
-### Completion criteria (I will check these tonight)
-
-- [ ] projects/personal-page/ exists locally with at least one commit.
-- [ ] Page is live at https://rohithsheregar.github.io/personal-page/ (or equivalent URL).
-- [ ] notes/dsa-notes.md and notes/shell-notes.md are committed to this (daily-coach) repo.
-- [ ] scripts/hello.sh is committed and runs without errors.
-
-### Common mistakes
-
-- Forgetting git branch -M main before pushing — GitHub's default branch is main, not master.
-- GitHub Pages takes 2-3 minutes to go live the first time. If it 404s immediately, wait and refresh.
-- Not pushing the daily-coach repo too — all notes and scripts should be committed here as well.
-
-### Read more
-
-- GitHub Pages docs: https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site
-
----
-
-## Step 6: Assess and revise
-
-**Type / time:** Assess · 30 min
-
-No notes needed — I will ask you these questions when you come back for the evening check. Just think through the answers now so you are ready:
-
-1. What is the difference between grep and find? When do you use each?
-2. What does a pipe (|) do? Give one example using two commands.
-3. What does set -euo pipefail at the top of a shell script do, and why is it important?
-4. What is the difference between a fast-forward merge and a merge commit in Git?
-5. Why does Two Sum use a HashMap instead of a double loop? What complexity does each have?
-
-### Completion criteria (I will check these tonight)
-
-- [ ] Can answer 4 of 5 questions above when I ask them verbally in the evening check.
+  git commit -m "work: day 2 - two pointers (valid palindrome, two sum II)"
+  git push
 
 ---
 
 ## Before you close the laptop
 
-1. Commit and push everything in this (daily-coach) repo:
-   git add .
-   git commit -m "work: day 1 — shell, git, DSA arrays-hashing"
-   git push
-
-2. Make sure projects/git-practice/ and projects/personal-page/ are pushed to GitHub.
-
-3. Come back to Claude and say "check today's work".
+1. Commit and push (command above).
+2. Come back and say **"check today's work"** — I will ask you two verbal questions and log the day.
 
 ## Parking lot
 
-- (Anything interesting that came up today — write here, do not open during work blocks.)
+- 3Sum (LeetCode 15) — Two Pointers + sorting, slightly harder, do it on the next DSA day.
+- Remove Duplicates from Sorted Array (26) — if you did not get to it today, it is the first item for the next DSA block.
